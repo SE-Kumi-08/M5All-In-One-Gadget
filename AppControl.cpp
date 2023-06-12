@@ -99,6 +99,7 @@ void AppControl::displayTitleInit()
 
 void AppControl::displayMenuInit()
 {
+    mlcd.clearDisplay();
     mlcd.displayJpgImageCoordinate(MENU_WBGT_FOCUS_IMG_PATH, MENU_WBGT_X_CRD, MENU_WBGT_Y_CRD);
     mlcd.displayJpgImageCoordinate(MENU_MUSIC_IMG_PATH, MENU_WBGT_X_CRD, MENU_MUSIC_Y_CRD);
     mlcd.displayJpgImageCoordinate(MENU_MEASURE_IMG_PATH, MENU_MEASURE_X_CRD, MENU_MEASURE_Y_CRD);
@@ -175,6 +176,7 @@ void AppControl::controlApplication()
             switch (getAction()) {
             case ENTRY:
                 displayTitleInit();
+                setBtnAllFlgFalse();
                 setStateMachine(TITLE, DO);
                 break;
 
@@ -183,11 +185,11 @@ void AppControl::controlApplication()
                 break;
 
             case EXIT:
-                if(m_flag_btnA_is_pressed(true)){
+                if(m_flag_btnA_is_pressed == true){
                     setStateMachine(MENU, ENTRY);
-                }else if(m_flag_btnB_is_pressed(true)){
+                }else if(m_flag_btnB_is_pressed == true){
                     setStateMachine(MENU, ENTRY);
-                }else if(m_flag_btnC_is_pressed(true)){
+                }else if(m_flag_btnC_is_pressed == true){
                     setStateMachine(MENU, ENTRY);
                 };
                 break;
@@ -207,12 +209,12 @@ void AppControl::controlApplication()
                 break;
 
             case DO:
-                setStateMachine(MENU, EXIT);
-                
+                //setStateMachine(MENU, EXIT);
+
                 break;
 
             case EXIT:
-                setStateMachine(WBGT, ENTRY);
+                //setStateMachine(WBGT, ENTRY);
                 break;
             default:
                 break;
