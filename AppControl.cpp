@@ -201,10 +201,16 @@ void AppControl::displayMusicPlay()
 
 void AppControl::displayMeasureInit()
 {
+    mlcd.clearDisplay();
+    mlcd.fillBackgroundWhite();
+    mlcd.displayJpgImageCoordinate(MEASURE_NOTICE_IMG_PATH, MEASURE_MENU_X_CRD, MEASURE_MENU_Y_CRD);
+    mlcd.displayJpgImageCoordinate(COMMON_BUTTON_BACK_IMG_PATH, MEASURE_DECIDE_X_CRD, MEASURE_DECIDE_Y_CRD);
+    mlcd.displayJpgImageCoordinate(MEASURE_CM_IMG_PATH, MEASURE_UNIT_X_CRD, MEASURE_UNIT_Y_CRD);
 }
 
 void AppControl::displayMeasureDistance()
 {
+    
 }
 
 void AppControl::displayDateInit()
@@ -383,12 +389,17 @@ void AppControl::controlApplication()
 
             switch (getAction()) {
             case ENTRY:
+                displayMeasureInit();
+                setStateMachine(MEASURE, DO);
                 break;
 
             case DO:
+                displayMeasureDistance();
+                setStateMachine(MEASURE, EXIT);
                 break;
 
             case EXIT:
+                setStateMachine(DATE, ENTRY);
                 break;
 
             default:
