@@ -100,6 +100,7 @@ void AppControl::displayTitleInit()
 void AppControl::displayMenuInit()
 {
     mlcd.clearDisplay();
+    mlcd.fillBackgroundWhite();
     mlcd.displayJpgImageCoordinate(MENU_WBGT_FOCUS_IMG_PATH, MENU_WBGT_X_CRD, MENU_WBGT_Y_CRD);
     mlcd.displayJpgImageCoordinate(MENU_MUSIC_IMG_PATH, MENU_WBGT_X_CRD, MENU_MUSIC_Y_CRD);
     mlcd.displayJpgImageCoordinate(MENU_MEASURE_IMG_PATH, MENU_MEASURE_X_CRD, MENU_MEASURE_Y_CRD);
@@ -110,18 +111,65 @@ void AppControl::displayMenuInit()
     setBtnAllFlgFalse();
 }
 void AppControl::focusChangeImg(FocusState current_state, FocusState next_state)
-{
-    /*setFocusState(){
-        mlcd.displayJpgImageCoordinate(MENU_WBGT_FOCUS_IMG_PATH, MENU_WBGT_X_CRD, MENU_WBGT_Y_CRD);
-        mlcd.displayJpgImageCoordinate(MENU_MUSIC_IMG_PATH, MENU_WBGT_X_CRD, MENU_MUSIC_Y_CRD);
-        mlcd.displayJpgImageCoordinate(MENU_MEASURE_IMG_PATH, MENU_MEASURE_X_CRD, MENU_MEASURE_Y_CRD);
-        mlcd.displayJpgImageCoordinate(MENU_DATE_IMG_PATH, MENU_DATE_X_CRD, MENU_DATE_Y_CRD);
-        mlcd.displayJpgImageCoordinate(COMMON_BUTTON_UP_IMG_PATH, MENU_UP_X_CRD, MENU_UP_Y_CRD);
-        mlcd.displayJpgImageCoordinate(COMMON_BUTTON_DOWN_IMG_PATH, MENU_DOWN_X_CRD, MENU_DOWN_Y_CRD);
-        mlcd.displayJpgImageCoordinate(COMMON_BUTTON_DECIDE_IMG_PATH, MENU_DECIDE_X_CRD, MENU_DECIDE_Y_CRD);
-        setBtnAllFlgFalse();
-    }*/
+{Serial.println("focusChangeImg");
+    
+     switch(next_state){
+
+        case MENU_WBGT:
+            mlcd.clearDisplay();
+            mlcd.fillBackgroundWhite();
+            mlcd.displayJpgImageCoordinate(MENU_WBGT_FOCUS_IMG_PATH, MENU_WBGT_X_CRD, MENU_WBGT_Y_CRD);
+            mlcd.displayJpgImageCoordinate(MENU_MUSIC_IMG_PATH, MENU_WBGT_X_CRD, MENU_MUSIC_Y_CRD);
+            mlcd.displayJpgImageCoordinate(MENU_MEASURE_IMG_PATH, MENU_MEASURE_X_CRD, MENU_MEASURE_Y_CRD);
+            mlcd.displayJpgImageCoordinate(MENU_DATE_IMG_PATH, MENU_DATE_X_CRD, MENU_DATE_Y_CRD);
+            mlcd.displayJpgImageCoordinate(COMMON_BUTTON_UP_IMG_PATH, MENU_UP_X_CRD, MENU_UP_Y_CRD);
+            mlcd.displayJpgImageCoordinate(COMMON_BUTTON_DOWN_IMG_PATH, MENU_DOWN_X_CRD, MENU_DOWN_Y_CRD);
+            mlcd.displayJpgImageCoordinate(COMMON_BUTTON_DECIDE_IMG_PATH, MENU_DECIDE_X_CRD, MENU_DECIDE_Y_CRD);
+            setBtnAllFlgFalse();
+        break;
+
+        case MENU_MUSIC:
+            mlcd.clearDisplay();
+            mlcd.fillBackgroundWhite();
+            mlcd.displayJpgImageCoordinate(MENU_WBGT_IMG_PATH, MENU_WBGT_X_CRD, MENU_WBGT_Y_CRD);
+            mlcd.displayJpgImageCoordinate(MENU_MUSIC_FOCUS_IMG_PATH, MENU_WBGT_X_CRD, MENU_MUSIC_Y_CRD);
+            mlcd.displayJpgImageCoordinate(MENU_MEASURE_IMG_PATH, MENU_MEASURE_X_CRD, MENU_MEASURE_Y_CRD);
+            mlcd.displayJpgImageCoordinate(MENU_DATE_IMG_PATH, MENU_DATE_X_CRD, MENU_DATE_Y_CRD);
+            mlcd.displayJpgImageCoordinate(COMMON_BUTTON_UP_IMG_PATH, MENU_UP_X_CRD, MENU_UP_Y_CRD);
+            mlcd.displayJpgImageCoordinate(COMMON_BUTTON_DOWN_IMG_PATH, MENU_DOWN_X_CRD, MENU_DOWN_Y_CRD);
+            mlcd.displayJpgImageCoordinate(COMMON_BUTTON_DECIDE_IMG_PATH, MENU_DECIDE_X_CRD, MENU_DECIDE_Y_CRD);
+            setBtnAllFlgFalse();
+        break;
+
+        case MENU_MEASURE:
+            mlcd.clearDisplay();
+            mlcd.fillBackgroundWhite();
+            mlcd.displayJpgImageCoordinate(MENU_WBGT_IMG_PATH, MENU_WBGT_X_CRD, MENU_WBGT_Y_CRD);
+            mlcd.displayJpgImageCoordinate(MENU_MUSIC_IMG_PATH, MENU_WBGT_X_CRD, MENU_MUSIC_Y_CRD);
+            mlcd.displayJpgImageCoordinate(MENU_MEASURE_FOCUS_IMG_PATH, MENU_MEASURE_X_CRD, MENU_MEASURE_Y_CRD);
+            mlcd.displayJpgImageCoordinate(MENU_DATE_IMG_PATH, MENU_DATE_X_CRD, MENU_DATE_Y_CRD);
+            mlcd.displayJpgImageCoordinate(COMMON_BUTTON_UP_IMG_PATH, MENU_UP_X_CRD, MENU_UP_Y_CRD);
+            mlcd.displayJpgImageCoordinate(COMMON_BUTTON_DOWN_IMG_PATH, MENU_DOWN_X_CRD, MENU_DOWN_Y_CRD);
+            mlcd.displayJpgImageCoordinate(COMMON_BUTTON_DECIDE_IMG_PATH, MENU_DECIDE_X_CRD, MENU_DECIDE_Y_CRD);
+            setBtnAllFlgFalse();
+        break;
+
+        case MENU_DATE:
+            mlcd.clearDisplay();
+            mlcd.fillBackgroundWhite();
+            mlcd.displayJpgImageCoordinate(MENU_WBGT_IMG_PATH, MENU_WBGT_X_CRD, MENU_WBGT_Y_CRD);
+            mlcd.displayJpgImageCoordinate(MENU_MUSIC_IMG_PATH, MENU_WBGT_X_CRD, MENU_MUSIC_Y_CRD);
+            mlcd.displayJpgImageCoordinate(MENU_MEASURE_IMG_PATH, MENU_MEASURE_X_CRD, MENU_MEASURE_Y_CRD);
+            mlcd.displayJpgImageCoordinate(MENU_DATE_FOCUS_IMG_PATH, MENU_DATE_X_CRD, MENU_DATE_Y_CRD);
+            mlcd.displayJpgImageCoordinate(COMMON_BUTTON_UP_IMG_PATH, MENU_UP_X_CRD, MENU_UP_Y_CRD);
+            mlcd.displayJpgImageCoordinate(COMMON_BUTTON_DOWN_IMG_PATH, MENU_DOWN_X_CRD, MENU_DOWN_Y_CRD);
+            mlcd.displayJpgImageCoordinate(COMMON_BUTTON_DECIDE_IMG_PATH, MENU_DECIDE_X_CRD, MENU_DECIDE_Y_CRD);
+            setBtnAllFlgFalse();
+        break;
+        }   
+    
 }
+
 
 void AppControl::displayWBGTInit()
 {
@@ -169,6 +217,8 @@ void AppControl::displayDateUpdate()
 
 void AppControl::controlApplication()
 {
+    mmplay.init();
+
     while (1) {
 
         switch (getState()) {
@@ -201,20 +251,73 @@ void AppControl::controlApplication()
             break;
 
         case MENU:
-
             switch (getAction()) {
             case ENTRY:
-                displayMenuInit(); 
+            Serial.println("menuentry");
+                displayMenuInit();
                 setStateMachine(MENU, DO);
+                setBtnAllFlgFalse();
+                setFocusState(MENU_WBGT);
                 break;
-
             case DO:
-                //setStateMachine(MENU, EXIT);
+            Serial.println("menudo");
+                
+                switch(getFocusState()){
+               
+                    case MENU_WBGT:
+                        if(m_flag_btnA_is_pressed == true){
+                            focusChangeImg(MENU_WBGT, MENU_DATE);
+                            setFocusState(MENU_DATE);
+                        }else if(m_flag_btnC_is_pressed == true){
+                            focusChangeImg(MENU_WBGT, MENU_MUSIC);
+                            setFocusState(MENU_MUSIC);
+                        }else if(m_flag_btnB_is_pressed == true){
+                            setStateMachine(MENU, EXIT);
+                        }
+                        break;
+                    
+                    case MENU_MUSIC:
+                        if(m_flag_btnA_is_pressed == true){
+                            focusChangeImg(MENU_MUSIC, MENU_WBGT);
+                            setFocusState(MENU_WBGT);
+                        }else if(m_flag_btnC_is_pressed == true){
+                            focusChangeImg(MENU_MUSIC, MENU_MEASURE);
+                            setFocusState(MENU_MEASURE);
+                        }else if(m_flag_btnB_is_pressed == true){
+                            setStateMachine(MUSIC_STOP, ENTRY);
+                        }
+                        break;
 
+                    case MENU_MEASURE:
+                        if(m_flag_btnA_is_pressed == true){
+                            focusChangeImg(MENU_MEASURE, MENU_MUSIC);
+                            setFocusState(MENU_MUSIC);
+                        }else if(m_flag_btnC_is_pressed == true){
+                            focusChangeImg(MENU_MEASURE, MENU_DATE);
+                            setFocusState(MENU_DATE);
+                        }else if(m_flag_btnB_is_pressed == true){
+                            setStateMachine(MEASURE, ENTRY);
+                        }
+                        break;
+
+                    case MENU_DATE:
+                        if(m_flag_btnA_is_pressed == true){
+                            focusChangeImg(MENU_DATE, MENU_MEASURE);
+                            setFocusState(MENU_MEASURE);
+                        }else if(m_flag_btnC_is_pressed == true){
+                            focusChangeImg(MENU_DATE, MENU_WBGT);
+                            setFocusState(MENU_WBGT);
+                        }else if(m_flag_btnB_is_pressed == true){
+                            setStateMachine(DATE, ENTRY);
+                        }
+                        break;
+                };
+               
                 break;
-
+                
             case EXIT:
-                //setStateMachine(WBGT, ENTRY);
+            Serial.println("menuexit");
+                setStateMachine(WBGT, ENTRY);
                 break;
             default:
                 break;
