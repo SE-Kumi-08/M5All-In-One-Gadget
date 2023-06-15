@@ -1,12 +1,15 @@
 #include "AppControl.h"
 #include <Arduino.h>
 #include <M5Stack.h>
+#include "DrUltraSonic.h"
+#include "MdMeasureDistance.h"
 
 MdLcd mlcd;
 MdWBGTMonitor mwbgt;
 MdMusicPlayer mmplay;
 MdMeasureDistance mmdist;
 MdDateTime mdtime;
+
 
 const char* g_str_orange[] = {
     COMMON_ORANGE0_IMG_PATH,
@@ -206,10 +209,43 @@ void AppControl::displayMeasureInit()
     mlcd.displayJpgImageCoordinate(MEASURE_NOTICE_IMG_PATH, MEASURE_MENU_X_CRD, MEASURE_MENU_Y_CRD);
     mlcd.displayJpgImageCoordinate(COMMON_BUTTON_BACK_IMG_PATH, MEASURE_DECIDE_X_CRD, MEASURE_DECIDE_Y_CRD);
     mlcd.displayJpgImageCoordinate(MEASURE_CM_IMG_PATH, MEASURE_UNIT_X_CRD, MEASURE_UNIT_Y_CRD);
+    mlcd.displayJpgImageCoordinate(COMMON_BLUEDOT_IMG_PATH, MEASURE_DISTANCE_D_X_CRD, MEASURE_DISTANCE_D_Y_CRD);
 }
 
 void AppControl::displayMeasureDistance()
 {
+    double distance = mmdist.getDistance();
+    int hundreds = static_cast<int>(distance) / 100;
+    int tens = static_cast<int>(distance) / 10 % 10;
+    int ones = static_cast<int>(distance) % 10;
+    int decimals = static_cast<int>((distance - static_cast<int>(distance)) * 10);
+    delay(250);
+    
+
+    if (hundreds >= 0 && hundreds <= 9)
+     {
+            g_str_blue[hundreds];
+            mlcd.displayJpgImageCoordinate(g_str_blue[hundreds], MEASURE_DISTANCE_A_X_CRD, MEASURE_DISTANCE_A_Y_CRD);
+     };
+
+     if (tens >= 0 && tens <= 9)
+     {
+            g_str_blue[tens];
+            mlcd.displayJpgImageCoordinate(g_str_blue[tens], MEASURE_DISTANCE_B_X_CRD, MEASURE_DISTANCE_B_Y_CRD);
+     };
+
+    if (tens >= 0 && tens <= 9)
+     {
+            g_str_blue[ones];
+            mlcd.displayJpgImageCoordinate(g_str_blue[ones], MEASURE_DISTANCE_C_X_CRD, MEASURE_DISTANCE_C_Y_CRD);
+     };
+
+     if (decimals >= 0 && decimals <= 9)
+     {
+            g_str_blue[decimals];
+            mlcd.displayJpgImageCoordinate(g_str_blue[decimals], MEASURE_DISTANCE_E_X_CRD, MEASURE_DISTANCE_E_Y_CRD);
+     };
+
     
 }
 
@@ -391,15 +427,18 @@ void AppControl::controlApplication()
             case ENTRY:
                 displayMeasureInit();
                 setStateMachine(MEASURE, DO);
+                setBtnAllFlgFalse();
                 break;
 
             case DO:
                 displayMeasureDistance();
-                setStateMachine(MEASURE, EXIT);
+                if(m_flag_btnB_is_pressed == true){
+                    setStateMachine(MEASURE, EXIT);
+                };
                 break;
 
             case EXIT:
-                setStateMachine(DATE, ENTRY);
+                setStateMachine(MENU, ENTRY);
                 break;
 
             default:
