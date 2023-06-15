@@ -3,6 +3,7 @@
 #include <M5Stack.h>
 #include "DrUltraSonic.h"
 #include "MdMeasureDistance.h"
+#include "MdWBGTMonitor.h"
 
 MdLcd mlcd;
 MdWBGTMonitor mwbgt;
@@ -219,35 +220,46 @@ void AppControl::displayMeasureDistance()
     int tens = static_cast<int>(distance) / 10 % 10;
     int ones = static_cast<int>(distance) % 10;
     int decimals = static_cast<int>((distance - static_cast<int>(distance)) * 10);
-    delay(250);
-    
 
-    if (hundreds >= 0 && hundreds <= 9)
-     {
+    if (hundreds >= 1 && hundreds <= 9) {
             g_str_blue[hundreds];
             mlcd.displayJpgImageCoordinate(g_str_blue[hundreds], MEASURE_DISTANCE_A_X_CRD, MEASURE_DISTANCE_A_Y_CRD);
      };
 
-     if (tens >= 0 && tens <= 9)
-     {
+    if (tens >= 1 && tens <= 9) {
             g_str_blue[tens];
             mlcd.displayJpgImageCoordinate(g_str_blue[tens], MEASURE_DISTANCE_B_X_CRD, MEASURE_DISTANCE_B_Y_CRD);
-     };
+    };
 
-    if (tens >= 0 && tens <= 9)
-     {
+    if (tens == 0){
+            g_str_blue[tens];
+            mlcd.displayJpgImageCoordinate(COMMON_BLUEFILLWHITE_IMG_PATH, MEASURE_DISTANCE_B_X_CRD, MEASURE_DISTANCE_B_Y_CRD);
+    };
+
+    if (hundreds >= 1 && tens == 0){
+            g_str_blue[hundreds];
+            mlcd.displayJpgImageCoordinate(g_str_blue[hundreds], MEASURE_DISTANCE_A_X_CRD, MEASURE_DISTANCE_A_Y_CRD);
+            g_str_blue[tens];
+            mlcd.displayJpgImageCoordinate(g_str_blue[tens], MEASURE_DISTANCE_B_X_CRD, MEASURE_DISTANCE_B_Y_CRD);
+    };
+            
+    if (ones >= 0 && ones <= 9) {
             g_str_blue[ones];
             mlcd.displayJpgImageCoordinate(g_str_blue[ones], MEASURE_DISTANCE_C_X_CRD, MEASURE_DISTANCE_C_Y_CRD);
-     };
+    };
 
-     if (decimals >= 0 && decimals <= 9)
-     {
+    if (decimals >= 0 && decimals <= 9) {
             g_str_blue[decimals];
             mlcd.displayJpgImageCoordinate(g_str_blue[decimals], MEASURE_DISTANCE_E_X_CRD, MEASURE_DISTANCE_E_Y_CRD);
-     };
+    };
+
+    if (hundreds == 0){
+            g_str_blue[hundreds];
+            mlcd.displayJpgImageCoordinate(COMMON_BLUEFILLWHITE_IMG_PATH, MEASURE_DISTANCE_A_X_CRD, MEASURE_DISTANCE_A_Y_CRD);
+    };
 
     
-}
+}    
 
 void AppControl::displayDateInit()
 {
@@ -432,6 +444,7 @@ void AppControl::controlApplication()
 
             case DO:
                 displayMeasureDistance();
+                delay(250);
                 if(m_flag_btnB_is_pressed == true){
                     setStateMachine(MEASURE, EXIT);
                 };
