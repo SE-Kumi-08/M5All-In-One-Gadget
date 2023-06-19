@@ -4,6 +4,7 @@
 #include "DrUltraSonic.h"
 #include "MdMeasureDistance.h"
 #include "MdWBGTMonitor.h"
+#include "MdMusicPlayer.h"
 
 MdLcd mlcd;
 MdWBGTMonitor mwbgt;
@@ -249,22 +250,46 @@ void AppControl::displayTempHumiIndex()
 
 void AppControl::displayMusicInit()
 {
+    mlcd.clearDisplay();
+    mlcd.fillBackgroundWhite();
+    mlcd.displayJpgImageCoordinate(MUSIC_NOWPLAYING_IMG_PATH, MUSIC_NOTICE_X_CRD, MUSIC_NOTICE_Y_CRD);
+    mlcd.displayJpgImageCoordinate(COMMON_BUTTON_BACK_IMG_PATH, MUSIC_STOP_X_CRD, MUSIC_STOP_Y_CRD);
+    mlcd.displayText(mmplay.getTitle(), MUSIC_TITLE_X_CRD, MUSIC_TITLE_Y_CRD);
 }
 
 void AppControl::displayMusicStop()
 {
+    mmplay.stopMP3();
 }
 
 void AppControl::displayMusicTitle()
 {
+    mlcd.clearDisplay();
+    mlcd.fillBackgroundWhite();
+    mlcd.displayJpgImageCoordinate(MUSIC_NOWSTOPPING_IMG_PATH, MUSIC_NOTICE_X_CRD, MUSIC_NOTICE_Y_CRD);
+    mlcd.displayJpgImageCoordinate(COMMON_BUTTON_PLAY_IMG_PATH, MUSIC_PLAY_X_CRD, MUSIC_PLAY_Y_CRD);
+    mlcd.displayJpgImageCoordinate(COMMON_BUTTON_BACK_IMG_PATH, MUSIC_BACK_X_CRD, MUSIC_BACK_Y_CRD);
+    mlcd.displayJpgImageCoordinate(COMMON_BUTTON_NEXT_IMG_PATH, MUSIC_NEXT_X_CRD, MUSIC_NEXT_Y_CRD);
+    mlcd.displayText(mmplay.getTitle(), MUSIC_TITLE_X_CRD, MUSIC_TITLE_Y_CRD);
 }
 
+
 void AppControl::displayNextMusic()
-{
+{   
+    mlcd.clearDisplay();
+    mlcd.fillBackgroundWhite();
+    mlcd.displayJpgImageCoordinate(MUSIC_NOWSTOPPING_IMG_PATH, MUSIC_NOTICE_X_CRD, MUSIC_NOTICE_Y_CRD);
+    mlcd.displayJpgImageCoordinate(COMMON_BUTTON_PLAY_IMG_PATH, MUSIC_PLAY_X_CRD, MUSIC_PLAY_Y_CRD);
+    mlcd.displayJpgImageCoordinate(COMMON_BUTTON_BACK_IMG_PATH, MUSIC_BACK_X_CRD, MUSIC_BACK_Y_CRD);
+    mlcd.displayJpgImageCoordinate(COMMON_BUTTON_NEXT_IMG_PATH, MUSIC_NEXT_X_CRD, MUSIC_NEXT_Y_CRD);
+    mmplay.selectNextMusic();
+    mlcd.displayText(mmplay.getTitle(), MUSIC_TITLE_X_CRD, MUSIC_TITLE_Y_CRD);
 }
 
 void AppControl::displayMusicPlay()
 {
+    mmplay.prepareMP3();
+    mmplay.isRunningMP3();
 }
 
 void AppControl::displayMeasureInit()
@@ -477,14 +502,24 @@ void AppControl::controlApplication()
         case MUSIC_STOP:
             switch (getAction()) {
             case ENTRY:
+                displayMusicTitle();
+                setStateMachine(MUSIC_STOP, DO);
                 break;
 
             case DO:
+                if(m_flag_btnB_is_pressed == true){
+                    setStateMachine(MENU, ENTRY);
+                }else if(m_flag_btnC_is_pressed == true){
+                    displayNextMusic();
+                    setBtnAllFlgFalse();
+                }else if(m_flag_btnA_is_pressed == true){
+                    setStateMachine(MUSIC_STOP, EXIT);
+                };
                 break;
-
+                
             case EXIT:
+                setStateMachine(MUSIC_PLAY, ENTRY);
                 break;
-
             default:
                 break;
             }
@@ -495,12 +530,26 @@ void AppControl::controlApplication()
 
             switch (getAction()) {
             case ENTRY:
+                setStateMachine(MUSIC_PLAY, DO);
+                displayMusicPlay();
+                displayMusicInit();
+                setBtnAllFlgFalse();
                 break;
 
             case DO:
+                
+                do{
+                    if(m_flag_btnA_is_pressed == true || mmplay.playMP3() == false){
+                    displayMusicStop();
+                    setStateMachine(MUSIC_PLAY, EXIT);
+                    setBtnAllFlgFalse();
+                    };
+                }while(mmplay.playMP3());
+                    
                 break;
 
             case EXIT:
+                setStateMachine(MUSIC_STOP, ENTRY);
                 break;
 
             default:
