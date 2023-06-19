@@ -5,6 +5,7 @@
 #include "MdMeasureDistance.h"
 #include "MdWBGTMonitor.h"
 #include "MdMusicPlayer.h"
+#include "MdDateTime.h"
 
 MdLcd mlcd;
 MdWBGTMonitor mwbgt;
@@ -352,10 +353,19 @@ void AppControl::displayMeasureDistance()
 
 void AppControl::displayDateInit()
 {
+    mlcd.clearDisplay();
+    mlcd.fillBackgroundWhite();
+    mlcd.displayJpgImageCoordinate(DATE_NOTICE_IMG_PATH, DATE_NOTICE_X_CRD, DATE_NOTICE_Y_CRD);
+    mlcd.displayDateText(mdtime.readDate(), DATE_YYYYMMDD_X_CRD, DATE_YYYYMMDD_Y_CRD);
+    mlcd.displayDateText(mdtime.readTime(), DATE_HHmmSS_X_CRD, DATE_HHmmSS_Y_CRD);
+    mlcd.displayJpgImageCoordinate(COMMON_BUTTON_BACK_IMG_PATH, DATE_BACK_X_CRD, DATE_BACK_Y_CRD);
 }
 
 void AppControl::displayDateUpdate()
 {
+    delay(100);
+    mlcd.displayDateText(mdtime.readDate(), DATE_YYYYMMDD_X_CRD, DATE_YYYYMMDD_Y_CRD);
+    mlcd.displayDateText(mdtime.readTime(), DATE_HHmmSS_X_CRD, DATE_HHmmSS_Y_CRD);
 }
 
 void AppControl::controlApplication()
@@ -589,14 +599,21 @@ void AppControl::controlApplication()
 
             switch (getAction()) {
             case ENTRY:
+                setStateMachine(DATE, DO);
+                displayDateInit();
                 break;
 
             case DO:
+                if(m_flag_btnB_is_pressed == true){
+                    setStateMachine(DATE, EXIT);
+                }else{
+                    displayDateUpdate();
+                };
                 break;
 
             case EXIT:
+                setStateMachine(MENU, ENTRY);
                 break;
-
             default:
                 break;
             }
