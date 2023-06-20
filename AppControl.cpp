@@ -117,8 +117,7 @@ void AppControl::displayMenuInit()
     setBtnAllFlgFalse();
 }
 void AppControl::focusChangeImg(FocusState current_state, FocusState next_state)
-{Serial.println("focusChangeImg");
-    
+{
      switch(current_state){
 
         case MENU_WBGT:
@@ -190,10 +189,10 @@ void AppControl::displayTempHumiIndex()
     
             switch(temp_disit){
                 case 1:
-                mlcd.displayJpgImageCoordinate(g_str_orange[tp % 10], WBGT_T1DECIMAL_X_CRD, WBGT_T1DECIMAL_Y_CRD);
+                    mlcd.displayJpgImageCoordinate(g_str_orange[tp % 10], WBGT_T1DECIMAL_X_CRD, WBGT_T1DECIMAL_Y_CRD);
                 break;
                 case 2:
-                mlcd.displayJpgImageCoordinate(g_str_orange[tp % 10], WBGT_T1DIGIT_X_CRD, WBGT_T1DIGIT_Y_CRD);
+                    mlcd.displayJpgImageCoordinate(g_str_orange[tp % 10], WBGT_T1DIGIT_X_CRD, WBGT_T1DIGIT_Y_CRD);
                 break;
                 case 3:
                 if(tp % 10 == 0){
@@ -211,10 +210,10 @@ void AppControl::displayTempHumiIndex()
     
             switch(humi_disit){
                 case 1:
-                mlcd.displayJpgImageCoordinate(g_str_blue[hm % 10], WBGT_H1DECIMAL_X_CRD, WBGT_H1DECIMAL_Y_CRD);
+                    mlcd.displayJpgImageCoordinate(g_str_blue[hm % 10], WBGT_H1DECIMAL_X_CRD, WBGT_H1DECIMAL_Y_CRD);
                 break;
                 case 2:
-                mlcd.displayJpgImageCoordinate(g_str_blue[hm % 10], WBGT_H1DIGIT_X_CRD, WBGT_H1DIGIT_Y_CRD);
+                    mlcd.displayJpgImageCoordinate(g_str_blue[hm % 10], WBGT_H1DIGIT_X_CRD, WBGT_H1DIGIT_Y_CRD);
                 break;
                 case 3:
                 if(hm % 10 == 0){
@@ -229,24 +228,21 @@ void AppControl::displayTempHumiIndex()
 
     switch(index){
         case SAFE:
-        mlcd.displayJpgImageCoordinate(WBGT_SAFE_IMG_PATH, WBGT_NOTICE_X_CRD, WBGT_NOTICE_Y_CRD);
+            mlcd.displayJpgImageCoordinate(WBGT_SAFE_IMG_PATH, WBGT_NOTICE_X_CRD, WBGT_NOTICE_Y_CRD);
         break;
         case ATTENTION:
-        mlcd.displayJpgImageCoordinate(WBGT_ATTENTION_IMG_PATH, WBGT_NOTICE_X_CRD, WBGT_NOTICE_Y_CRD);
+            mlcd.displayJpgImageCoordinate(WBGT_ATTENTION_IMG_PATH, WBGT_NOTICE_X_CRD, WBGT_NOTICE_Y_CRD);
         break;
         case ALERT:
-        mlcd.displayJpgImageCoordinate(WBGT_ALERT_IMG_PATH, WBGT_NOTICE_X_CRD, WBGT_NOTICE_Y_CRD);
+            mlcd.displayJpgImageCoordinate(WBGT_ALERT_IMG_PATH, WBGT_NOTICE_X_CRD, WBGT_NOTICE_Y_CRD);
         break;
         case HIGH_ALERT:
-        mlcd.displayJpgImageCoordinate(WBGT_HIGH_ALERT_IMG_PATH, WBGT_NOTICE_X_CRD, WBGT_NOTICE_Y_CRD);
+            mlcd.displayJpgImageCoordinate(WBGT_HIGH_ALERT_IMG_PATH, WBGT_NOTICE_X_CRD, WBGT_NOTICE_Y_CRD);
         break;
         case DANGER:
-        mlcd.displayJpgImageCoordinate(WBGT_DANGER_IMG_PATH, WBGT_NOTICE_X_CRD, WBGT_NOTICE_Y_CRD);
+            mlcd.displayJpgImageCoordinate(WBGT_DANGER_IMG_PATH, WBGT_NOTICE_X_CRD, WBGT_NOTICE_Y_CRD);
 
     }
-
-
-
 }
 
 void AppControl::displayMusicInit()
@@ -277,12 +273,7 @@ void AppControl::displayMusicTitle()
 
 void AppControl::displayNextMusic()
 {   
-    mlcd.clearDisplay();
-    mlcd.fillBackgroundWhite();
-    mlcd.displayJpgImageCoordinate(MUSIC_NOWSTOPPING_IMG_PATH, MUSIC_NOTICE_X_CRD, MUSIC_NOTICE_Y_CRD);
-    mlcd.displayJpgImageCoordinate(COMMON_BUTTON_PLAY_IMG_PATH, MUSIC_PLAY_X_CRD, MUSIC_PLAY_Y_CRD);
-    mlcd.displayJpgImageCoordinate(COMMON_BUTTON_BACK_IMG_PATH, MUSIC_BACK_X_CRD, MUSIC_BACK_Y_CRD);
-    mlcd.displayJpgImageCoordinate(COMMON_BUTTON_NEXT_IMG_PATH, MUSIC_NEXT_X_CRD, MUSIC_NEXT_Y_CRD);
+    mlcd.displayText("                     ", MUSIC_TITLE_X_CRD, MUSIC_TITLE_Y_CRD);
     mmplay.selectNextMusic();
     mlcd.displayText(mmplay.getTitle(), MUSIC_TITLE_X_CRD, MUSIC_TITLE_Y_CRD);
 }
@@ -389,7 +380,6 @@ void AppControl::displayDateInit()
 
 void AppControl::displayDateUpdate()
 {
-    delay(100);
     mlcd.displayDateText(mdtime.readDate(), DATE_YYYYMMDD_X_CRD, DATE_YYYYMMDD_Y_CRD);
     mlcd.displayDateText(mdtime.readTime(), DATE_HHmmSS_X_CRD, DATE_HHmmSS_Y_CRD);
 }
@@ -432,17 +422,13 @@ void AppControl::controlApplication()
         case MENU:
             switch (getAction()) {
             case ENTRY:
-            Serial.println("menuentry");
                 displayMenuInit();
                 setStateMachine(MENU, DO);
                 setBtnAllFlgFalse();
                 setFocusState(MENU_WBGT);
                 break;
             case DO:
-            Serial.println("menudo");
-                
                 switch(getFocusState()){
-               
                     case MENU_WBGT:
                         if(m_flag_btnA_is_pressed == true){
                             focusChangeImg(MENU_WBGT, MENU_DATE);
@@ -572,13 +558,12 @@ void AppControl::controlApplication()
                 setBtnAllFlgFalse();
                 break;
 
-            case DO:
-                
+            case DO:   
                 do{
                     if(m_flag_btnA_is_pressed == true || mmplay.playMP3() == false){
-                    displayMusicStop();
-                    setStateMachine(MUSIC_PLAY, EXIT);
-                    setBtnAllFlgFalse();
+                        displayMusicStop();
+                        setStateMachine(MUSIC_PLAY, EXIT);
+                        setBtnAllFlgFalse();
                     };
                 }while(mmplay.playMP3());
                     
@@ -605,16 +590,14 @@ void AppControl::controlApplication()
 
             case DO:
                while(m_flag_btnB_is_pressed == false){
-                displayMeasureDistance();
+                    displayMeasureDistance();
                };
                 setStateMachine(MEASURE, EXIT);
-               
                 break;
 
             case EXIT:
                 setStateMachine(MENU, ENTRY);
                 break;
-
             default:
                 break;
             }
@@ -633,10 +616,10 @@ void AppControl::controlApplication()
             case DO:
                 while(m_flag_btnB_is_pressed == false){
                     displayDateUpdate();
+                    delay(100);
                 };
                 setStateMachine(DATE, EXIT);
                 break;
-
             case EXIT:
                 setStateMachine(MENU, ENTRY);
                 break;
