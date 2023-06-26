@@ -10,6 +10,42 @@
 #define ECHO_PIN 5
 #define TRIG_PIN 2
 
+// trump image path
+#define TRUMP_TITLE_IMG_PATH "/images/trump/title.jpg"
+#define TRUMP_TITLE_START_IMG_PATH "/images/trump/start.jpg"
+#define TRUMP_TITLE_BACK_IMG_PATH "/images/common/button/back.jpg"
+#define TRUMP_TITLE_RECORD_IMG_PATH "/images/trump/record.jpg"
+#define TRUMP_MENU_HIGH_IMG_PATH "/images/trump/high.jpg"
+#define TRUMP_MENU_LOW_IMG_PATH "/images/trump/low.jpg"
+#define TRUMP_MENU_TITLE_IMG_PATH "/images/trump/highandlow.jpg"
+#define TRUMP_MENU_ONMORE_IMG_PATH "/images/trump/onmore.jpg"
+#define TRUMP_MENU_WIN_IMG_PATH "/images/trump/win.jpg"
+#define TRUMP_MENU_LOSE_IMG_PATH "/images/trump/lose.jpg"
+
+// trump card heart path
+#define TRUMP_HEART1_IMG_PATH "/images/trump/heart/heart1.jpg"
+#define TRUMP_HEART2_IMG_PATH "/images/trump/heart/heart2.jpg"
+#define TRUMP_HEART3_IMG_PATH "/images/trump/heart/heart3.jpg"
+#define TRUMP_HEART4_IMG_PATH "/images/trump/heart/heart4.jpg"
+#define TRUMP_HEART5_IMG_PATH "/images/trump/heart/heart5.jpg"
+#define TRUMP_HEART6_IMG_PATH "/images/trump/heart/heart6.jpg"
+#define TRUMP_HEART7_IMG_PATH "/images/trump/heart/heart7.jpg"
+#define TRUMP_HEART8_IMG_PATH "/images/trump/heart/heart8.jpg"
+#define TRUMP_HEART9_IMG_PATH "/images/trump/heart/heart9.jpg"
+#define TRUMP_HEART1_IMG_PATH "/images/trump/heart/heart1.jpg"
+
+// trump card spade path
+#define TRUMP_SPADE1_IMG_PATH "/images/trump/spade/spade1.jpg"
+#define TRUMP_SPADE2_IMG_PATH "/images/trump/spade/spade2.jpg"
+#define TRUMP_SPADE3_IMG_PATH "/images/trump/spade/spade3.jpg"
+#define TRUMP_SPADE4_IMG_PATH "/images/trump/spade/spade4.jpg"
+#define TRUMP_SPADE5_IMG_PATH "/images/trump/spade/spade5.jpg"
+#define TRUMP_SPADE6_IMG_PATH "/images/trump/spade/spade6.jpg"
+#define TRUMP_SPADE7_IMG_PATH "/images/trump/spade/spade7.jpg"
+#define TRUMP_SPADE8_IMG_PATH "/images/trump/spade/spade8.jpg"
+#define TRUMP_SPADE9_IMG_PATH "/images/trump/spade/spade9.jpg"
+#define TRUMP_SPADE1_IMG_PATH "/images/trump/spade/spade1.jpg"
+
 // jpg image path
 #define TITLE_IMG_PATH "/images/title/title.jpg"
 
@@ -76,6 +112,30 @@
 #define COMMON_BLUE0_IMG_PATH "/images/common/blue_number/0.jpg"
 #define COMMON_BLUEDOT_IMG_PATH "/images/common/blue_number/dot.jpg"
 #define COMMON_BLUEFILLWHITE_IMG_PATH "/images/common/blue_number/fillwhite.jpg"
+
+//TRUMP image coordinate
+#define TRUMP_TITLE_X_CRD 0
+#define TRUMP_TITLE_Y_CRD 0
+
+#define TRUMP_TITLE_START_X_CRD 0
+#define TRUMP_TITLE_START_Y_CRD 200 
+#define TRUMP_TITLE_BACK_X_CRD 120
+#define TRUMP_TITLE_BACK_Y_CRD 200
+#define TRUMP_TITLE_RECORD_X_CRD 240
+#define TRUMP_TITLE_RECORD_Y_CRD 200
+
+#define TRUMP_MENU_HIGH_X_CRD 0
+#define TRUMP_MENU_HIGH_Y_CRD 0
+#define TRUMP_MENU_LOW_X_CRD 0
+#define TRUMP_MENU_LOW_Y_CRD 0
+#define TRUMP_MENU_TITLE_X_CRD 0
+#define TRUMP_MENU_TITLE_Y_CRD 0
+#define TRUMP_MENU_ONMORE_X_CRD 0
+#define TRUMP_MENU_ONMORE_Y_CRD 0
+#define TRUMP_MENU_WIN_X_CRD 0
+#define TRUMP_MENU_WIN_Y_CRD 0
+#define TRUMP_MENU_LOSE_X_CRD 0
+#define TRUMP_MENU_LOSE_Y_CRD 0
 
 // TITLE jpg image coordinate
 #define TITLE_X_CRD 0
@@ -179,7 +239,8 @@ typedef enum {
     MUSIC_STOP,
     MUSIC_PLAY,
     MEASURE,
-    DATE
+    DATE,
+    HIGH_AND_LOW
 } State;
 
 typedef enum {

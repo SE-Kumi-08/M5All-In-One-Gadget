@@ -387,6 +387,8 @@ void AppControl::displayDateUpdate()
 void AppControl::controlApplication()
 {
     mmplay.init();
+    int flag_btnC = 0;
+    int flag_btnA = 0;
 
     while (1) {
 
@@ -427,7 +429,19 @@ void AppControl::controlApplication()
                 setBtnAllFlgFalse();
                 setFocusState(MENU_WBGT);
                 break;
-            case DO:
+            case DO:              
+                if(m_flag_btnA_is_pressed == true){
+                        flag_btnA++;
+                        Serial.println("flag_btnA");
+                    };
+                    if(m_flag_btnC_is_pressed == true && flag_btnA >= flag_btnC){
+                        flag_btnC++;
+                        Serial.println("flag_btnC");
+                        if(flag_btnC == 2 && flag_btnA == 2){
+                            Serial.println("setStateMachine");
+                            setStateMachine(HIGH_AND_LOW, ENTRY);
+                        };
+                    };
                 switch(getFocusState()){
                     case MENU_WBGT:
                         if(m_flag_btnA_is_pressed == true){
@@ -480,12 +494,13 @@ void AppControl::controlApplication()
                         }
                         setBtnAllFlgFalse();
                         break;
-                };
+                    
+                    };
                
                 break;
                 
             case EXIT:
-            Serial.println("menuexit");
+            
                 setStateMachine(WBGT, ENTRY);
                 break;
             default:
@@ -619,6 +634,37 @@ void AppControl::controlApplication()
                     delay(100);
                 };
                 setStateMachine(DATE, EXIT);
+                break;
+            case EXIT:
+                setStateMachine(MENU, ENTRY);
+                break;
+            default:
+                break;
+            }
+
+        case HIGH_AND_LOW:
+
+            switch (getAction()) {
+            case ENTRY:
+                setStateMachine(HIGH_AND_LOW, DO);
+                mlcd.clearDisplay();
+                mlcd.fillBackgroundWhite();
+                mlcd.displayJpgImageCoordinate(TRUMP_TITLE_IMG_PATH, TRUMP_TITLE_X_CRD, TRUMP_TITLE_Y_CRD);
+                mlcd.displayJpgImageCoordinate(TRUMP_TITLE_START_IMG_PATH, TRUMP_TITLE_START_X_CRD, TRUMP_TITLE_START_Y_CRD);
+                mlcd.displayJpgImageCoordinate(TRUMP_TITLE_BACK_IMG_PATH, TRUMP_TITLE_BACK_X_CRD, TRUMP_TITLE_BACK_Y_CRD);
+                mlcd.displayJpgImageCoordinate(TRUMP_TITLE_RECORD_IMG_PATH, TRUMP_TITLE_RECORD_X_CRD, TRUMP_TITLE_RECORD_Y_CRD);
+                setBtnAllFlgFalse();
+                break;
+
+            case DO:
+                if(m_flag_btnB_is_pressed == true){
+                    setStateMachine(HIGH_AND_LOW, EXIT);
+                }else if(m_flag_btnA_is_pressed == true){
+                    
+                }else if(m_flag_btnC_is_pressed == true){
+
+                }
+                
                 break;
             case EXIT:
                 setStateMachine(MENU, ENTRY);
