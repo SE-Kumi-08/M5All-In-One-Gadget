@@ -37,6 +37,19 @@ const char* g_trp_spade[] = {
     TRUMP_SPADE9_IMG_PATH,
 };
 
+const char* g_str_orange[] = {
+    COMMON_ORANGE0_IMG_PATH,
+    COMMON_ORANGE1_IMG_PATH,
+    COMMON_ORANGE2_IMG_PATH,
+    COMMON_ORANGE3_IMG_PATH,
+    COMMON_ORANGE4_IMG_PATH,
+    COMMON_ORANGE5_IMG_PATH,
+    COMMON_ORANGE6_IMG_PATH,
+    COMMON_ORANGE7_IMG_PATH,
+    COMMON_ORANGE8_IMG_PATH,
+    COMMON_ORANGE9_IMG_PATH,
+};
+
 const char* g_str_blue[] = {
     COMMON_BLUE0_IMG_PATH,
     COMMON_BLUE1_IMG_PATH,
@@ -394,6 +407,28 @@ void AppControl::displayDateUpdate()
     mlcd.displayDateText(mdtime.readTime(), DATE_HHmmSS_X_CRD, DATE_HHmmSS_Y_CRD);
 }
 
+void AppControl::displayHighAndInit()
+{
+    mlcd.clearDisplay();
+    mlcd.fillBackgroundWhite();
+    mlcd.displayJpgImageCoordinate(TRUMP_TITLE_IMG_PATH, TRUMP_TITLE_X_CRD, TRUMP_TITLE_Y_CRD);
+    mlcd.displayJpgImageCoordinate(TRUMP_TITLE_START_IMG_PATH, TRUMP_TITLE_START_X_CRD, TRUMP_TITLE_START_Y_CRD);
+    mlcd.displayJpgImageCoordinate(TRUMP_TITLE_BACK_IMG_PATH, TRUMP_TITLE_BACK_X_CRD, TRUMP_TITLE_BACK_Y_CRD);
+    mlcd.displayJpgImageCoordinate(TRUMP_TITLE_RECORD_IMG_PATH, TRUMP_TITLE_RECORD_X_CRD, TRUMP_TITLE_RECORD_Y_CRD);
+    setBtnAllFlgFalse();
+}
+
+void AppControl::displayHighAndTitle()
+{
+    mlcd.clearDisplay();
+    mlcd.fillBackgroundWhite();
+    mlcd.displayJpgImageCoordinate(TRUMP_MENU_HIGH_IMG_PATH, TRUMP_MENU_HIGH_X_CRD, TRUMP_MENU_HIGH_Y_CRD);
+    mlcd.displayJpgImageCoordinate(TRUMP_MENU_LOW_IMG_PATH, TRUMP_MENU_LOW_X_CRD, TRUMP_MENU_LOW_Y_CRD);
+    mlcd.displayJpgImageCoordinate(TRUMP_MENU_TITLE_IMG_PATH, TRUMP_MENU_TITLE_X_CRD, TRUMP_MENU_TITLE_Y_CRD);
+    mlcd.displayJpgImageCoordinate(TRUMP_BACK_IMG_PATH, TRUMP_RECORD_SPADE_X_CRD, TRUMP_RECORD_SPADE_Y_CRD);
+    mlcd.displayJpgImageCoordinate(TRUMP_BACK_IMG_PATH, TRUMP_RECORD_HEART_X_CRD, TRUMP_RECORD_HEART_Y_CRD);
+}
+
 void AppControl::controlApplication()
 {
     mmplay.init();
@@ -435,20 +470,18 @@ void AppControl::controlApplication()
             switch (getAction()) {
             case ENTRY:
                 displayMenuInit();
-                setStateMachine(MENU, DO);
+                //setStateMachine(MENU, DO);
                 setBtnAllFlgFalse();
+                setStateMachine(HIGH_AND_LOW, ENTRY);
                 setFocusState(MENU_WBGT);
                 break;
             case DO:              
                 if(m_flag_btnA_is_pressed == true){
                         flag_btnA++;
-                        Serial.println("flag_btnA");
                     };
                     if(m_flag_btnC_is_pressed == true && flag_btnA >= flag_btnC){
                         flag_btnC++;
-                        Serial.println("flag_btnC");
                         if(flag_btnC == 2 && flag_btnA == 2){
-                            Serial.println("setStateMachine");
                             setStateMachine(HIGH_AND_LOW, ENTRY);
                         };
                     };
@@ -657,20 +690,81 @@ void AppControl::controlApplication()
             switch (getAction()) {
             case ENTRY:
                 setStateMachine(HIGH_AND_LOW, DO);
-                mlcd.clearDisplay();
-                mlcd.fillBackgroundWhite();
-                mlcd.displayJpgImageCoordinate(TRUMP_TITLE_IMG_PATH, TRUMP_TITLE_X_CRD, TRUMP_TITLE_Y_CRD);
-                mlcd.displayJpgImageCoordinate(TRUMP_TITLE_START_IMG_PATH, TRUMP_TITLE_START_X_CRD, TRUMP_TITLE_START_Y_CRD);
-                mlcd.displayJpgImageCoordinate(TRUMP_TITLE_BACK_IMG_PATH, TRUMP_TITLE_BACK_X_CRD, TRUMP_TITLE_BACK_Y_CRD);
-                mlcd.displayJpgImageCoordinate(TRUMP_TITLE_RECORD_IMG_PATH, TRUMP_TITLE_RECORD_X_CRD, TRUMP_TITLE_RECORD_Y_CRD);
-                setBtnAllFlgFalse();
+                displayHighAndInit();
+                flag_btnC = 0;
+                flag_btnA = 0;
                 break;
 
             case DO:
+                displayHighAndTitle();
                 if(m_flag_btnB_is_pressed == true){
                     setStateMachine(HIGH_AND_LOW, EXIT);
                 }else if(m_flag_btnA_is_pressed == true){
+                    int L_heartCard;
+	                int R_spadeCard;
+	                String select = "";
+	                bool userSelect = true;
+	                bool result = true;
+	                int mode = 0;
+	                int record[10] = { 0 };
+	                int btlCnt = 0;
                     
+                    do {
+                        if (mode == 1) {
+            
+			                int wins = 0;
+			                btlCnt++;
+
+			                    while (true) {
+                                setBtnAllFlgFalse();
+				                //左用ランダム数値の取得表示
+				                L_heartCard = random(1, 10); 
+                                mlcd.displayJpgImageCoordinate(g_trp_heart[L_heartCard], TRUMP_RECORD_HEART_X_CRD, TRUMP_RECORD_HEART_Y_CRD);
+				                //High | Low判断
+				                if (m_flag_btnA_is_pressed == true){
+					                    userSelect = true;
+				                }else if (m_flag_btnC_is_pressed == true) {
+					                record[btlCnt - 1] = wins;
+				        
+					        break;
+
+				    }else {
+					    userSelect = false;
+				
+				    };
+
+				    do {
+					    //右用ランダム数値の取得表示
+					    R_spadeCard = random(1, 10);
+                        mlcd.displayJpgImageCoordinate(TRUMP_SPADE1_IMG_PATH, TRUMP_RECORD_SPADE_X_CRD, TRUMP_RECORD_SPADE_Y_CRD);
+				    } while (L_heartCard == R_spadeCard);
+				
+				    //左右数値比較
+				    if (L_heartCard < R_spadeCard) {
+					    mlcd.displayJpgImageCoordinate(g_trp_spade[R_spadeCard], TRUMP_MENU_WIN_X_CRD, TRUMP_MENU_WIN_Y_CRD);
+                        result = true;
+				    }else if (L_heartCard > R_spadeCard) {
+					    mlcd.displayJpgImageCoordinate(g_trp_spade[R_spadeCard], TRUMP_MENU_LOSE_X_CRD, TRUMP_MENU_LOSE_Y_CRD);
+                        result = false;
+				    }else {
+					// ここに来ることはありえないが念のため記述
+					result = true;
+				
+				    };
+
+				    //勝敗判断
+				    if (userSelect == result) {
+					    wins++;
+				    }else {
+					// 連勝記録の保存
+					    record[btlCnt - 1] = wins;
+					    break;
+				    };
+			    };
+		            };
+	            } while (mode == 1 && btlCnt < 10);
+	                //Loop End
+                
                 }else if(m_flag_btnC_is_pressed == true){
 
                 }

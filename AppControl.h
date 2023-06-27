@@ -7,6 +7,7 @@
 #include "MdMeasureDistance.h"
 #include "MdMusicPlayer.h"
 #include "MdWBGTMonitor.h"
+#include "HighAndLow.h"
 
 class AppControl // classの定義
 {
@@ -49,5 +50,7 @@ public: // publicはどこからでもアクセス可能
     void displayMeasureDistance();
     void displayDateInit();
     void displayDateUpdate();
+    void displayHighAndInit();
+    void displayHighAndTitle();
     void controlApplication();
 };

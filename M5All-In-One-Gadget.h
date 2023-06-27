@@ -32,7 +32,7 @@
 #define TRUMP_HEART7_IMG_PATH "/images/trump/heart/heart7.jpg"
 #define TRUMP_HEART8_IMG_PATH "/images/trump/heart/heart8.jpg"
 #define TRUMP_HEART9_IMG_PATH "/images/trump/heart/heart9.jpg"
-#define TRUMP_HEART1_IMG_PATH "/images/trump/heart/heart1.jpg"
+#define TRUMP_BACK_IMG_PATH "/images/trump/back.jpg"
 
 // trump card spade path
 #define TRUMP_SPADE1_IMG_PATH "/images/trump/spade/spade1.jpg"
@@ -128,14 +128,19 @@
 #define TRUMP_MENU_HIGH_Y_CRD 200
 #define TRUMP_MENU_LOW_X_CRD 240
 #define TRUMP_MENU_LOW_Y_CRD 200
-#define TRUMP_MENU_TITLE_X_CRD 0
-#define TRUMP_MENU_TITLE_Y_CRD 0
+#define TRUMP_MENU_TITLE_X_CRD 60
+#define TRUMP_MENU_TITLE_Y_CRD 120
 #define TRUMP_MENU_ONMORE_X_CRD 0
 #define TRUMP_MENU_ONMORE_Y_CRD 200
-#define TRUMP_MENU_WIN_X_CRD 0
-#define TRUMP_MENU_WIN_Y_CRD 0
-#define TRUMP_MENU_LOSE_X_CRD 0
-#define TRUMP_MENU_LOSE_Y_CRD 0
+#define TRUMP_MENU_WIN_X_CRD 95
+#define TRUMP_MENU_WIN_Y_CRD 120
+#define TRUMP_MENU_LOSE_X_CRD 100
+#define TRUMP_MENU_LOSE_Y_CRD 120
+
+#define TRUMP_RECORD_HEART_X_CRD 80
+#define TRUMP_RECORD_HEART_Y_CRD 0
+#define TRUMP_RECORD_SPADE_X_CRD 180
+#define TRUMP_RECORD_SPADE_Y_CRD 0
 
 // TITLE jpg image coordinate
 #define TITLE_X_CRD 0
