@@ -12,8 +12,10 @@ MdWBGTMonitor mwbgt;
 MdMusicPlayer mmplay;
 MdMeasureDistance mmdist;
 MdDateTime mdtime;
+MdHighAndLow mdhal;
+HALCommand g_cmd[5] = {DECIDE,DECIDE,DECIDE,DECIDE,DECIDE};
 
-const char* g_trp_heart[] = {
+const char* g_str_heart[] = {
     TRUMP_HEART1_IMG_PATH,
     TRUMP_HEART2_IMG_PATH,
     TRUMP_HEART3_IMG_PATH,
@@ -25,7 +27,7 @@ const char* g_trp_heart[] = {
     TRUMP_HEART9_IMG_PATH,
 };
 
-const char* g_trp_spade[] = {
+const char* g_str_spade[] = {
     TRUMP_SPADE1_IMG_PATH,
     TRUMP_SPADE2_IMG_PATH,
     TRUMP_SPADE3_IMG_PATH,
@@ -407,26 +409,77 @@ void AppControl::displayDateUpdate()
     mlcd.displayDateText(mdtime.readTime(), DATE_HHmmSS_X_CRD, DATE_HHmmSS_Y_CRD);
 }
 
-void AppControl::displayHighAndInit()
+void AppControl::displayHALInit()
 {
     mlcd.clearDisplay();
     mlcd.fillBackgroundWhite();
-    mlcd.displayJpgImageCoordinate(TRUMP_TITLE_IMG_PATH, TRUMP_TITLE_X_CRD, TRUMP_TITLE_Y_CRD);
-    mlcd.displayJpgImageCoordinate(TRUMP_TITLE_START_IMG_PATH, TRUMP_TITLE_START_X_CRD, TRUMP_TITLE_START_Y_CRD);
-    mlcd.displayJpgImageCoordinate(TRUMP_TITLE_BACK_IMG_PATH, TRUMP_TITLE_BACK_X_CRD, TRUMP_TITLE_BACK_Y_CRD);
-    mlcd.displayJpgImageCoordinate(TRUMP_TITLE_RECORD_IMG_PATH, TRUMP_TITLE_RECORD_X_CRD, TRUMP_TITLE_RECORD_Y_CRD);
-    setBtnAllFlgFalse();
+
+    mlcd.displayJpgImageCoordinate(HAL_TITLE_IMG_PATH, HAL_TITLE_X_CRD, HAL_TITLE_Y_CRD);
+    mlcd.displayJpgImageCoordinate(HAL_START_IMG_PATH, HAL_START_X_CRD, HAL_START_Y_CRD);
+    mlcd.displayJpgImageCoordinate(COMMON_BUTTON_BACK_IMG_PATH, HAL_BACKBTN_X_CRD, HAL_BACKBTN_Y_CRD);
+    mlcd.displayJpgImageCoordinate(HAL_RECORD_IMG_PATH, HAL_RECORD_X_CRD, HAL_RECORD_Y_CRD);
+
 }
 
-void AppControl::displayHighAndTitle()
+void AppControl::displayHALBattleInit()
 {
     mlcd.clearDisplay();
     mlcd.fillBackgroundWhite();
-    mlcd.displayJpgImageCoordinate(TRUMP_MENU_HIGH_IMG_PATH, TRUMP_MENU_HIGH_X_CRD, TRUMP_MENU_HIGH_Y_CRD);
-    mlcd.displayJpgImageCoordinate(TRUMP_MENU_LOW_IMG_PATH, TRUMP_MENU_LOW_X_CRD, TRUMP_MENU_LOW_Y_CRD);
-    mlcd.displayJpgImageCoordinate(TRUMP_MENU_TITLE_IMG_PATH, TRUMP_MENU_TITLE_X_CRD, TRUMP_MENU_TITLE_Y_CRD);
-    mlcd.displayJpgImageCoordinate(TRUMP_BACK_IMG_PATH, TRUMP_RECORD_SPADE_X_CRD, TRUMP_RECORD_SPADE_Y_CRD);
-    mlcd.displayJpgImageCoordinate(TRUMP_BACK_IMG_PATH, TRUMP_RECORD_HEART_X_CRD, TRUMP_RECORD_HEART_Y_CRD);
+    
+    mlcd.displayJpgImageCoordinate(HAL_BACK_IMG_PATH, HAL_RIGHTTRUMP_X_CRD, HAL_RIGHTTRUMP_Y_CRD);
+    mlcd.displayJpgImageCoordinate(HAL_QUESTION_IMG_PATH, HAL_QUESTION_X_CRD, HAL_QUESTION_Y_CRD);
+    mlcd.displayJpgImageCoordinate(HAL_HIGH_IMG_PATH, HAL_HIGH_X_CRD, HAL_HIGH_Y_CRD);
+    mlcd.displayJpgImageCoordinate(HAL_LOW_IMG_PATH, HAL_LOW_X_CRD, HAL_LOW_Y_CRD);
+
+    mlcd.displayJpgImageCoordinate(g_str_heart[mdhal.getLeftNumber() - 1], HAL_LEFTTRUMP_X_CRD, HAL_LEFTTRUMP_Y_CRD);
+}
+
+void AppControl::displayHALResultInit()
+{
+    mlcd.displayDateText("          ", HAL_QUESTION_X_CRD, HAL_QUESTION_Y_CRD);
+    mlcd.displayJpgImageCoordinate(g_str_spade[mdhal.getRightNumber() - 1], HAL_RIGHTTRUMP_X_CRD, HAL_RIGHTTRUMP_Y_CRD);
+
+    if(mdhal.getResult()){
+        mdhal.incrementWins();
+        mlcd.displayJpgImageCoordinate(HAL_WIN_IMG_PATH, HAL_WIN_X_CRD, HAL_WIN_Y_CRD);
+    }else{
+        mlcd.displayJpgImageCoordinate(HAL_LOSE_IMG_PATH, HAL_LOSE_X_CRD, HAL_LOSE_Y_CRD);
+    }
+    
+    mlcd.displayJpgImageCoordinate(HAL_ONEMORE_IMG_PATH, HAL_ONEMORE_X_CRD, HAL_ONEMORE_Y_CRD);
+    mlcd.displayJpgImageCoordinate(COMMON_BUTTON_BACK_IMG_PATH, HAL_BACKBTN_X_CRD, HAL_BACKBTN_Y_CRD);
+    mlcd.displayJpgImageCoordinate(COMMON_BUTTON_FILLWHITE_IMG_PATH, HAL_LOW_X_CRD, HAL_LOW_Y_CRD);
+
+}
+
+void AppControl::displayHALRecordInit()
+{
+    mlcd.clearDisplay();
+    mlcd.fillBackgroundWhite();
+    mlcd.resetCursor();
+    mlcd.displayJpgImageCoordinate(COMMON_BUTTON_BACK_IMG_PATH, HAL_BACKBTN_X_CRD, HAL_BACKBTN_Y_CRD);
+    String btl_record[10][2];
+    mdhal.getRecord(btl_record);
+    for(int row = 0; row < 10; row++){
+        mlcd.displayRecord(btl_record[row][0] + " " + btl_record[row][1]);
+        Serial.println(btl_record[row][0] + " " + btl_record[row][1]);
+    }
+}
+
+void AppControl::saveCommand(HALCommand cmd){
+    g_cmd[0] = g_cmd[1];
+    g_cmd[1] = g_cmd[2];
+    g_cmd[2] = g_cmd[3];
+    g_cmd[3] = g_cmd[4];
+    g_cmd[4] = cmd;
+}
+
+bool AppControl::checkCommand(){
+    bool result = false;
+    if(g_cmd[0] == UP && g_cmd[1] == UP && g_cmd[2] == DOWN && g_cmd[3] == DOWN && g_cmd[4] == DECIDE){
+        result = true;
+    }
+    return result;
 }
 
 void AppControl::controlApplication()
@@ -442,22 +495,18 @@ void AppControl::controlApplication()
             switch (getAction()) {
             case ENTRY:
                 displayTitleInit();
-                setBtnAllFlgFalse();
                 setStateMachine(TITLE, DO);
                 break;
 
             case DO:
-                setStateMachine(TITLE, EXIT);
+                if (m_flag_btnA_is_pressed || m_flag_btnB_is_pressed || m_flag_btnC_is_pressed) {
+                    setBtnAllFlgFalse();
+                    setStateMachine(TITLE, EXIT);
+                }
                 break;
 
             case EXIT:
-                if(m_flag_btnA_is_pressed == true){
-                    setStateMachine(MENU, ENTRY);
-                }else if(m_flag_btnB_is_pressed == true){
-                    setStateMachine(MENU, ENTRY);
-                }else if(m_flag_btnC_is_pressed == true){
-                    setStateMachine(MENU, ENTRY);
-                };
+                setStateMachine(MENU, ENTRY);
                 break;
 
             default:
@@ -467,85 +516,108 @@ void AppControl::controlApplication()
             break;
 
         case MENU:
+
             switch (getAction()) {
             case ENTRY:
-                displayMenuInit();
-                //setStateMachine(MENU, DO);
-                setBtnAllFlgFalse();
-                setStateMachine(HIGH_AND_LOW, ENTRY);
                 setFocusState(MENU_WBGT);
+                displayMenuInit();
+                setStateMachine(MENU, DO);
                 break;
-            case DO:              
-                if(m_flag_btnA_is_pressed == true){
-                        flag_btnA++;
-                    };
-                    if(m_flag_btnC_is_pressed == true && flag_btnA >= flag_btnC){
-                        flag_btnC++;
-                        if(flag_btnC == 2 && flag_btnA == 2){
-                            setStateMachine(HIGH_AND_LOW, ENTRY);
-                        };
-                    };
-                switch(getFocusState()){
+
+            case DO:
+                if (m_flag_btnA_is_pressed) {
+                    saveCommand(UP);
+                    switch (getFocusState()) {
                     case MENU_WBGT:
-                        if(m_flag_btnA_is_pressed == true){
-                            focusChangeImg(MENU_WBGT, MENU_DATE);
-                            setFocusState(MENU_DATE);
-                        }else if(m_flag_btnC_is_pressed == true){
-                            focusChangeImg(MENU_WBGT, MENU_MUSIC);
-                            setFocusState(MENU_MUSIC);
-                        }else if(m_flag_btnB_is_pressed == true){
-                            setStateMachine(MENU, EXIT);
-                        }
-                        setBtnAllFlgFalse();
+                        focusChangeImg(MENU_WBGT, MENU_DATE);
+                        setFocusState(MENU_DATE);
                         break;
-                    
+
                     case MENU_MUSIC:
-                        if(m_flag_btnA_is_pressed == true){
-                            focusChangeImg(MENU_MUSIC, MENU_WBGT);
-                            setFocusState(MENU_WBGT);
-                        }else if(m_flag_btnC_is_pressed == true){
-                            focusChangeImg(MENU_MUSIC, MENU_MEASURE);
-                            setFocusState(MENU_MEASURE);
-                        }else if(m_flag_btnB_is_pressed == true){
-                            setStateMachine(MUSIC_STOP, ENTRY);
-                        }
-                        setBtnAllFlgFalse();
+                        focusChangeImg(MENU_MUSIC, MENU_WBGT);
+                        setFocusState(MENU_WBGT);
                         break;
 
                     case MENU_MEASURE:
-                        if(m_flag_btnA_is_pressed == true){
-                            focusChangeImg(MENU_MEASURE, MENU_MUSIC);
-                            setFocusState(MENU_MUSIC);
-                        }else if(m_flag_btnC_is_pressed == true){
-                            focusChangeImg(MENU_MEASURE, MENU_DATE);
-                            setFocusState(MENU_DATE);
-                        }else if(m_flag_btnB_is_pressed == true){
-                            setStateMachine(MEASURE, ENTRY);
-                        }
-                        setBtnAllFlgFalse();
+                        focusChangeImg(MENU_MEASURE, MENU_MUSIC);
+                        setFocusState(MENU_MUSIC);
                         break;
 
                     case MENU_DATE:
-                        if(m_flag_btnA_is_pressed == true){
-                            focusChangeImg(MENU_DATE, MENU_MEASURE);
-                            setFocusState(MENU_MEASURE);
-                        }else if(m_flag_btnC_is_pressed == true){
-                            focusChangeImg(MENU_DATE, MENU_WBGT);
-                            setFocusState(MENU_WBGT);
-                        }else if(m_flag_btnB_is_pressed == true){
-                            setStateMachine(DATE, ENTRY);
-                        }
-                        setBtnAllFlgFalse();
+                        focusChangeImg(MENU_DATE, MENU_MEASURE);
+                        setFocusState(MENU_MEASURE);
                         break;
-                    
-                    };
-               
+
+                    default:
+                        break;
+                    }
+                    setBtnAFlg(false);
+
+                } else if (m_flag_btnB_is_pressed) {
+                    saveCommand(DECIDE);
+                    setStateMachine(MENU, EXIT);
+                    setBtnBFlg(false);
+
+                } else if (m_flag_btnC_is_pressed) {
+                    saveCommand(DOWN);
+                    switch (getFocusState()) {
+                    case MENU_WBGT:
+                        focusChangeImg(MENU_WBGT, MENU_MUSIC);
+                        setFocusState(MENU_MUSIC);
+                        break;
+
+                    case MENU_MUSIC:
+                        focusChangeImg(MENU_MUSIC, MENU_MEASURE);
+                        setFocusState(MENU_MEASURE);
+                        break;
+
+                    case MENU_MEASURE:
+                        focusChangeImg(MENU_MEASURE, MENU_DATE);
+                        setFocusState(MENU_DATE);
+                        break;
+
+                    case MENU_DATE:
+                        focusChangeImg(MENU_DATE, MENU_WBGT);
+                        setFocusState(MENU_WBGT);
+                        break;
+
+                    default:
+                        break;
+                    }
+                    setBtnCFlg(false);
+                }
                 break;
-                
+
             case EXIT:
-            
-                setStateMachine(WBGT, ENTRY);
-                break;
+
+                if(checkCommand()){
+                    setStateMachine(HAL_TITLE, ENTRY);
+                }
+                else{
+                    switch (getFocusState()) {
+                    case MENU_WBGT:
+                        setStateMachine(WBGT, ENTRY);
+                        break;
+
+                    case MENU_MUSIC:
+                        setStateMachine(MUSIC_STOP, ENTRY);
+                        break;
+
+                    case MENU_MEASURE:
+                        setStateMachine(MEASURE, ENTRY);
+                        break;
+
+                    case MENU_DATE:
+                        setStateMachine(DATE, ENTRY);
+                        break;
+
+                    default:
+                        break;
+                    }
+                    break;                    
+                }
+
+                setBtnAllFlgFalse();
             default:
                 break;
             }
@@ -685,97 +757,127 @@ void AppControl::controlApplication()
                 break;
             }
 
-        case HIGH_AND_LOW:
+        case HAL_TITLE:
 
             switch (getAction()) {
             case ENTRY:
-                setStateMachine(HIGH_AND_LOW, DO);
-                displayHighAndInit();
-                flag_btnC = 0;
-                flag_btnA = 0;
+                displayHALInit();
+                mdhal.setRecord();
+                setStateMachine(HAL_TITLE, DO);
                 break;
 
             case DO:
-                displayHighAndTitle();
-                if(m_flag_btnB_is_pressed == true){
-                    setStateMachine(HIGH_AND_LOW, EXIT);
-                }else if(m_flag_btnA_is_pressed == true){
-                    int L_heartCard;
-	                int R_spadeCard;
-	                String select = "";
-	                bool userSelect = true;
-	                bool result = true;
-	                int mode = 0;
-	                int record[10] = { 0 };
-	                int btlCnt = 0;
-                    
-                    do {
-                        if (mode == 1) {
-            
-			                int wins = 0;
-			                btlCnt++;
-
-			                    while (true) {
-                                setBtnAllFlgFalse();
-				                //左用ランダム数値の取得表示
-				                L_heartCard = random(1, 10); 
-                                mlcd.displayJpgImageCoordinate(g_trp_heart[L_heartCard], TRUMP_RECORD_HEART_X_CRD, TRUMP_RECORD_HEART_Y_CRD);
-				                //High | Low判断
-				                if (m_flag_btnA_is_pressed == true){
-					                    userSelect = true;
-				                }else if (m_flag_btnC_is_pressed == true) {
-					                record[btlCnt - 1] = wins;
-				        
-					        break;
-
-				    }else {
-					    userSelect = false;
-				
-				    };
-
-				    do {
-					    //右用ランダム数値の取得表示
-					    R_spadeCard = random(1, 10);
-                        mlcd.displayJpgImageCoordinate(TRUMP_SPADE1_IMG_PATH, TRUMP_RECORD_SPADE_X_CRD, TRUMP_RECORD_SPADE_Y_CRD);
-				    } while (L_heartCard == R_spadeCard);
-				
-				    //左右数値比較
-				    if (L_heartCard < R_spadeCard) {
-					    mlcd.displayJpgImageCoordinate(g_trp_spade[R_spadeCard], TRUMP_MENU_WIN_X_CRD, TRUMP_MENU_WIN_Y_CRD);
-                        result = true;
-				    }else if (L_heartCard > R_spadeCard) {
-					    mlcd.displayJpgImageCoordinate(g_trp_spade[R_spadeCard], TRUMP_MENU_LOSE_X_CRD, TRUMP_MENU_LOSE_Y_CRD);
-                        result = false;
-				    }else {
-					// ここに来ることはありえないが念のため記述
-					result = true;
-				
-				    };
-
-				    //勝敗判断
-				    if (userSelect == result) {
-					    wins++;
-				    }else {
-					// 連勝記録の保存
-					    record[btlCnt - 1] = wins;
-					    break;
-				    };
-			    };
-		            };
-	            } while (mode == 1 && btlCnt < 10);
-	                //Loop End
-                
-                }else if(m_flag_btnC_is_pressed == true){
-
+                if (m_flag_btnA_is_pressed) {
+                    hal_state = HAL_BATTLE;
+                    setStateMachine(HAL_TITLE, EXIT);
+                } else if (m_flag_btnB_is_pressed) {
+                    hal_state = MENU;
+                    setStateMachine(HAL_TITLE, EXIT);
+                } else if (m_flag_btnC_is_pressed) {
+                    hal_state = HAL_RECORD;
+                    setStateMachine(HAL_TITLE, EXIT);
                 }
-                
                 break;
+
             case EXIT:
-                setStateMachine(MENU, ENTRY);
+                setBtnAllFlgFalse();
+                setStateMachine(hal_state, ENTRY);
                 break;
+
             default:
                 break;
             }
+
+            break;
+
+        case HAL_BATTLE:
+
+            switch (getAction()) {
+            case ENTRY:
+                mdhal.setCardNumber();
+                displayHALBattleInit();
+                setStateMachine(HAL_BATTLE, DO);
+                break;
+
+            case DO:
+                if (m_flag_btnA_is_pressed) {
+                    mdhal.setResult(HAL_HIGH);
+                    setStateMachine(HAL_BATTLE, EXIT);
+                } else if (m_flag_btnC_is_pressed) {
+                    mdhal.setResult(HAL_LOW);
+                    setStateMachine(HAL_BATTLE, EXIT);
+                }
+                break;
+
+            case EXIT:
+                setBtnAllFlgFalse();
+                setStateMachine(HAL_RESULT, ENTRY);
+                break;
+
+            default:
+                break;
+            }
+
+            break;
+
+        case HAL_RESULT:
+
+            switch (getAction()) {
+            case ENTRY:
+                displayHALResultInit();
+                setStateMachine(HAL_RESULT, DO);
+                break;
+
+            case DO:
+
+                if (m_flag_btnA_is_pressed) {
+                    if(!mdhal.getResult()){
+                        mdhal.saveRecord(mdtime.readDate() + " " + mdtime.readTime());
+                    }
+                    hal_state = HAL_BATTLE;
+                    setStateMachine(HAL_RESULT, EXIT);
+                } else if (m_flag_btnB_is_pressed) {
+                    mdhal.saveRecord(mdtime.readDate() + " " + mdtime.readTime());
+                    hal_state = HAL_TITLE;
+                    setStateMachine(HAL_RESULT, EXIT);
+                }
+                break;
+
+            case EXIT:
+                setBtnAllFlgFalse();
+                setStateMachine(hal_state, ENTRY);            
+               break;
+
+            default:
+                break;
+            }
+
+            break;
+
+        case HAL_RECORD:
+
+            switch (getAction()) {
+            case ENTRY:
+                displayHALRecordInit();
+                setStateMachine(HAL_RECORD, DO);
+                break;
+
+            case DO:
+                if (m_flag_btnB_is_pressed) {
+                    setStateMachine(HAL_RECORD, EXIT);
+                }
+                break;
+
+            case EXIT:
+                setBtnAllFlgFalse();
+                setStateMachine(HAL_TITLE, ENTRY);
+                break;
+
+            default:
+                break;
+            }
+
+            break;
 
         default:
             break;

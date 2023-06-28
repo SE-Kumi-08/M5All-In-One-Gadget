@@ -10,41 +10,41 @@
 #define ECHO_PIN 5
 #define TRIG_PIN 2
 
+// HighAndLow Record
+#define HAL_ROW 10
+#define HAL_COL 2
+
 // trump image path
-#define TRUMP_TITLE_IMG_PATH "/images/trump/title.jpg"
-#define TRUMP_TITLE_START_IMG_PATH "/images/trump/start.jpg"
-#define TRUMP_TITLE_BACK_IMG_PATH "/images/common/button/back.jpg"
-#define TRUMP_TITLE_RECORD_IMG_PATH "/images/trump/record.jpg"
-#define TRUMP_MENU_HIGH_IMG_PATH "/images/trump/high.jpg"
-#define TRUMP_MENU_LOW_IMG_PATH "/images/trump/low.jpg"
-#define TRUMP_MENU_TITLE_IMG_PATH "/images/trump/highandlow.jpg"
-#define TRUMP_MENU_ONMORE_IMG_PATH "/images/trump/onmore.jpg"
-#define TRUMP_MENU_WIN_IMG_PATH "/images/trump/win.jpg"
-#define TRUMP_MENU_LOSE_IMG_PATH "/images/trump/lose.jpg"
+#define HAL_TITLE_IMG_PATH "/images/trump/title.jpg"
+#define HAL_START_IMG_PATH "/images/trump/start.jpg"
+#define HAL_RECORD_IMG_PATH "/images/trump/record.jpg"
+#define HAL_HIGH_IMG_PATH "/images/trump/high.jpg"
+#define HAL_LOW_IMG_PATH "/images/trump/low.jpg"
+#define HAL_ONEMORE_IMG_PATH "/images/trump/onemore.jpg"
+#define HAL_QUESTION_IMG_PATH "/images/trump/highandlow.jpg"
+#define HAL_BACK_IMG_PATH "/images/trump/back.jpg"
+#define HAL_WIN_IMG_PATH "/images/trump/win.jpg"
+#define HAL_LOSE_IMG_PATH "/images/trump/lose.jpg"
 
-// trump card heart path
-#define TRUMP_HEART1_IMG_PATH "/images/trump/heart/heart1.jpg"
-#define TRUMP_HEART2_IMG_PATH "/images/trump/heart/heart2.jpg"
-#define TRUMP_HEART3_IMG_PATH "/images/trump/heart/heart3.jpg"
-#define TRUMP_HEART4_IMG_PATH "/images/trump/heart/heart4.jpg"
-#define TRUMP_HEART5_IMG_PATH "/images/trump/heart/heart5.jpg"
-#define TRUMP_HEART6_IMG_PATH "/images/trump/heart/heart6.jpg"
-#define TRUMP_HEART7_IMG_PATH "/images/trump/heart/heart7.jpg"
-#define TRUMP_HEART8_IMG_PATH "/images/trump/heart/heart8.jpg"
-#define TRUMP_HEART9_IMG_PATH "/images/trump/heart/heart9.jpg"
-#define TRUMP_BACK_IMG_PATH "/images/trump/back.jpg"
+#define HEART_1_IMG_PATH "/images/trump/heart/heart1.jpg"
+#define HEART_2_IMG_PATH "/images/trump/heart/heart2.jpg"
+#define HEART_3_IMG_PATH "/images/trump/heart/heart3.jpg"
+#define HEART_4_IMG_PATH "/images/trump/heart/heart4.jpg"
+#define HEART_5_IMG_PATH "/images/trump/heart/heart5.jpg"
+#define HEART_6_IMG_PATH "/images/trump/heart/heart6.jpg"
+#define HEART_7_IMG_PATH "/images/trump/heart/heart7.jpg"
+#define HEART_8_IMG_PATH "/images/trump/heart/heart8.jpg"
+#define HEART_9_IMG_PATH "/images/trump/heart/heart9.jpg"
 
-// trump card spade path
-#define TRUMP_SPADE1_IMG_PATH "/images/trump/spade/spade1.jpg"
-#define TRUMP_SPADE2_IMG_PATH "/images/trump/spade/spade2.jpg"
-#define TRUMP_SPADE3_IMG_PATH "/images/trump/spade/spade3.jpg"
-#define TRUMP_SPADE4_IMG_PATH "/images/trump/spade/spade4.jpg"
-#define TRUMP_SPADE5_IMG_PATH "/images/trump/spade/spade5.jpg"
-#define TRUMP_SPADE6_IMG_PATH "/images/trump/spade/spade6.jpg"
-#define TRUMP_SPADE7_IMG_PATH "/images/trump/spade/spade7.jpg"
-#define TRUMP_SPADE8_IMG_PATH "/images/trump/spade/spade8.jpg"
-#define TRUMP_SPADE9_IMG_PATH "/images/trump/spade/spade9.jpg"
-#define TRUMP_SPADE1_IMG_PATH "/images/trump/spade/spade1.jpg"
+#define SPADE_1_IMG_PATH "/images/trump/spade/spade1.jpg"
+#define SPADE_2_IMG_PATH "/images/trump/spade/spade2.jpg"
+#define SPADE_3_IMG_PATH "/images/trump/spade/spade3.jpg"
+#define SPADE_4_IMG_PATH "/images/trump/spade/spade4.jpg"
+#define SPADE_5_IMG_PATH "/images/trump/spade/spade5.jpg"
+#define SPADE_6_IMG_PATH "/images/trump/spade/spade6.jpg"
+#define SPADE_7_IMG_PATH "/images/trump/spade/spade7.jpg"
+#define SPADE_8_IMG_PATH "/images/trump/spade/spade8.jpg"
+#define SPADE_9_IMG_PATH "/images/trump/spade/spade9.jpg"
 
 // jpg image path
 #define TITLE_IMG_PATH "/images/title/title.jpg"
@@ -114,33 +114,32 @@
 #define COMMON_BLUEFILLWHITE_IMG_PATH "/images/common/blue_number/fillwhite.jpg"
 
 //TRUMP image coordinate
-#define TRUMP_TITLE_X_CRD 0
-#define TRUMP_TITLE_Y_CRD 0
+#define HAL_TITLE_X_CRD 0
+#define HAL_TITLE_Y_CRD 0
+#define HAL_START_X_CRD 0
+#define HAL_START_Y_CRD 200
+#define HAL_RECORD_X_CRD 240
+#define HAL_RECORD_Y_CRD 200
+#define HAL_BACKBTN_X_CRD 120
+#define HAL_BACKBTN_Y_CRD 200
 
-#define TRUMP_TITLE_START_X_CRD 0
-#define TRUMP_TITLE_START_Y_CRD 200 
-#define TRUMP_TITLE_BACK_X_CRD 120
-#define TRUMP_TITLE_BACK_Y_CRD 200
-#define TRUMP_TITLE_RECORD_X_CRD 240
-#define TRUMP_TITLE_RECORD_Y_CRD 200
+#define HAL_LEFTTRUMP_X_CRD 45
+#define HAL_LEFTTRUMP_Y_CRD 10
+#define HAL_RIGHTTRUMP_X_CRD 195
+#define HAL_RIGHTTRUMP_Y_CRD 10
+#define HAL_QUESTION_X_CRD 20
+#define HAL_QUESTION_Y_CRD 140
+#define HAL_HIGH_X_CRD 0
+#define HAL_HIGH_Y_CRD 200
+#define HAL_LOW_X_CRD 240
+#define HAL_LOW_Y_CRD 200
 
-#define TRUMP_MENU_HIGH_X_CRD 0
-#define TRUMP_MENU_HIGH_Y_CRD 200
-#define TRUMP_MENU_LOW_X_CRD 240
-#define TRUMP_MENU_LOW_Y_CRD 200
-#define TRUMP_MENU_TITLE_X_CRD 60
-#define TRUMP_MENU_TITLE_Y_CRD 120
-#define TRUMP_MENU_ONMORE_X_CRD 0
-#define TRUMP_MENU_ONMORE_Y_CRD 200
-#define TRUMP_MENU_WIN_X_CRD 95
-#define TRUMP_MENU_WIN_Y_CRD 120
-#define TRUMP_MENU_LOSE_X_CRD 100
-#define TRUMP_MENU_LOSE_Y_CRD 120
-
-#define TRUMP_RECORD_HEART_X_CRD 80
-#define TRUMP_RECORD_HEART_Y_CRD 0
-#define TRUMP_RECORD_SPADE_X_CRD 180
-#define TRUMP_RECORD_SPADE_Y_CRD 0
+#define HAL_WIN_X_CRD 80
+#define HAL_WIN_Y_CRD 140
+#define HAL_LOSE_X_CRD 110
+#define HAL_LOSE_Y_CRD 140
+#define HAL_ONEMORE_X_CRD 0
+#define HAL_ONEMORE_Y_CRD 200
 
 // TITLE jpg image coordinate
 #define TITLE_X_CRD 0
@@ -245,7 +244,10 @@ typedef enum {
     MUSIC_PLAY,
     MEASURE,
     DATE,
-    HIGH_AND_LOW
+    HAL_TITLE,
+    HAL_BATTLE,
+    HAL_RESULT,
+    HAL_RECORD
 } State;
 
 typedef enum {
@@ -268,3 +270,14 @@ typedef enum {
     HIGH_ALERT,
     DANGER
 } WbgtIndex;
+
+typedef enum{
+    UP,
+    DOWN,
+    DECIDE
+}HALCommand;
+
+typedef enum{
+    HAL_HIGH,
+    HAL_LOW
+}HALAnswer;
